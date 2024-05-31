@@ -1,0 +1,7 @@
+{
+  "name": "nestjs-line-tutorial",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
