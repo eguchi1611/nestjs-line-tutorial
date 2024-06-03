@@ -5,19 +5,17 @@ import { useEffect, useState } from "react";
 
 export function LiffStatus() {
   const { liff } = useLiff();
-  const [profile, setProfile] = useState({});
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     if (liff) {
-      liff.getProfile().then((profile) => {
-        setProfile(profile);
-      });
+      setToken(liff.getIDToken());
     }
   }, [liff]);
 
   return (
     <div>
-      <pre>{JSON.stringify({ liff, profile }, null, 2)}</pre>
+      <pre>{JSON.stringify({ liff, token }, null, 2)}</pre>
     </div>
   );
 }
