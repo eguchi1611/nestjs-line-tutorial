@@ -12,27 +12,33 @@ export class LineAuthGuard implements CanActivate {
     const requset = context.switchToHttp().getRequest();
     const authorization = requset.headers.authorization;
 
-    console.log("呼ばれた!");
-
     if (!authorization) throw new UnauthorizedException();
 
-    const user = { test: "test" };
+    const token = authorization.split(" ")[1];
+    const uid = await this.verifyToken(token);
 
-    requset["user"] = user;
+    if (!uid) throw new UnauthorizedException();
 
+    requset["user"] = { uid };
     return true;
   }
 
-  private verifyToken(token: string) {
-    axios.post(
-      "https://api.line.me/oauth2/v2.1/verify",
-      {
-        id_token: token,
-        client_id: "todo",
-      },
-      {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      },
-    );
+  private async verifyToken(token: string): Promise<string | null> {
+    try {
+      const res = await axios.post(
+        "https://api.line.me/oauth2/v2.1/verify",
+        {
+          id_token: token,
+          client_id: process.env.LINE_CHANNEL_ID,
+        },
+        {
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        },
+      );
+
+      if (res.status !== 200) throw new UnauthorizedException();
+      return res.data.sub;
+    } catch (error) {}
+    return null;
   }
 }

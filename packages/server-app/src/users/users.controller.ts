@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   ParseIntPipe,
   Patch,
@@ -29,28 +30,29 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @UseGuards(LineAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: UserEntity })
-  async create(@Body() createUserDto: CreateUserDto) {
-    return new UserEntity(await this.usersService.create(createUserDto));
+  async create(@Body() createUserDto: CreateUserDto, @Req() request: Request) {
+    const { uid } = request["user"];
+    return new UserEntity(await this.usersService.create(uid, createUserDto));
   }
 
   @Get()
-  @UseGuards(LineAuthGuard)
-  @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity, isArray: true })
   async findAll(@Req() request: Request) {
-    console.log(request["user"]);
-
     const users = await this.usersService.findAll();
     return users.map((user) => new UserEntity(user));
   }
 
   @Get(":id")
-  @UseGuards(LineAuthGuard)
-  @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity })
   async findOne(@Param("id", ParseIntPipe) id: number) {
-    return new UserEntity(await this.usersService.findOne(id));
+    const user = await this.usersService.findOne(id);
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return new UserEntity(user);
   }
 
   @Patch(":id")
@@ -59,16 +61,22 @@ export class UsersController {
   @ApiCreatedResponse({ type: UserEntity })
   async update(
     @Param("id", ParseIntPipe) id: number,
+    @Req() request: Request,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return new UserEntity(await this.usersService.update(id, updateUserDto));
+    const { uid } = request["user"];
+    return new UserEntity(
+      await this.usersService.update(id, uid, updateUserDto),
+    );
   }
 
   @Delete(":id")
   @UseGuards(LineAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity })
-  async remove(@Param("id", ParseIntPipe) id: number) {
-    return new UserEntity(await this.usersService.remove(id));
+  async remove(@Param("id", ParseIntPipe) id: number, @Req() request: Request) {
+    const { uid } = request["user"];
+
+    return new UserEntity(await this.usersService.remove(id, uid));
   }
 }
