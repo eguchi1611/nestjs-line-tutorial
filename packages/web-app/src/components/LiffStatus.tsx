@@ -9,7 +9,7 @@ export function LiffStatus() {
 
   useEffect(() => {
     if (liff) {
-      setToken(liff.getIDToken());
+      setToken(liff.getAccessToken());
     }
   }, [liff]);
 
