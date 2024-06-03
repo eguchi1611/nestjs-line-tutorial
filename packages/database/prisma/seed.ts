@@ -3,37 +3,37 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const post1 = await prisma.post.upsert({
+  const user1 = await prisma.user.upsert({
     where: { id: 1 },
     update: {},
     create: {
       id: 1,
-      title: "Post 1",
-      content: "Content 1",
-      published: true,
+      lineUid: "U8189cf6745fc0d808977bdb0b9f22991",
+      comment: "Hello, World!",
     },
   });
-  const post2 = await prisma.post.upsert({
+
+  const user2 = await prisma.user.upsert({
     where: { id: 2 },
     update: {},
     create: {
       id: 2,
-      title: "Post 2",
-      content: "Content 2",
-      published: false,
+      lineUid: "U8189cf6745fc0d808977bdb0b9f22992",
+      comment: "Oh, Hi!",
     },
   });
-  const post3 = await prisma.post.upsert({
+
+  const user3 = await prisma.user.upsert({
     where: { id: 3 },
     update: {},
     create: {
       id: 3,
-      title: "Post 3",
-      content: "Content 3",
-      published: true,
+      lineUid: "U8189cf6745fc0d808977bdb0b9f22993",
+      comment: "Hey, There!",
     },
   });
-  console.log({ post1, post2, post3 });
+
+  console.log({ user1, user2, user3 });
 }
 
 main()
