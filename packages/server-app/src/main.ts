@@ -3,6 +3,7 @@ import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "./app.module";
 import { PrismaClientExceptionFilter } from "./prisma-client-exception/prisma-client-exception.filter";
+import * as fs from "fs";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,6 +26,8 @@ async function bootstrap() {
     ignoreGlobalPrefix: true,
   });
   SwaggerModule.setup("docs", app, document);
+
+  fs.writeFileSync("openapi.json", JSON.stringify(document, null, 2));
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
