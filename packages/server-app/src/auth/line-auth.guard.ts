@@ -5,21 +5,19 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import axios from "axios";
+import { AuthUserEntity } from "src/auth-user/entities/auth-user.entity";
 
 @Injectable()
 export class LineAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const requset = context.switchToHttp().getRequest();
     const authorization = requset.headers.authorization;
-
-    if (!authorization) throw new UnauthorizedException();
-
     const token = authorization.split(" ")[1];
     const uid = await this.verifyToken(token);
 
     if (!uid) throw new UnauthorizedException();
 
-    requset["user"] = { uid };
+    requset["user"] = new AuthUserEntity({ uid });
     return true;
   }
 
@@ -38,7 +36,9 @@ export class LineAuthGuard implements CanActivate {
 
       if (res.status !== 200) throw new UnauthorizedException();
       return res.data.sub;
-    } catch (error) {}
+    } catch (error) {
+      console.error("Verify token error");
+    }
     return null;
   }
 }

@@ -8,7 +8,6 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Req,
   UseGuards,
 } from "@nestjs/common";
 import {
@@ -17,7 +16,8 @@ import {
   ApiOkResponse,
   ApiTags,
 } from "@nestjs/swagger";
-import { Request } from "express";
+import { AuthUser } from "src/auth-user/auth-user.decorator";
+import { AuthUserEntity } from "src/auth-user/entities/auth-user.entity";
 import { LineAuthGuard } from "src/auth/line-auth.guard";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -33,14 +33,18 @@ export class UsersController {
   @UseGuards(LineAuthGuard)
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: UserEntity })
-  async create(@Body() createUserDto: CreateUserDto, @Req() request: Request) {
-    const { uid } = request["user"];
+  async create(
+    @Body() createUserDto: CreateUserDto,
+    @AuthUser()
+    authUser: AuthUserEntity,
+  ) {
+    const { uid } = authUser;
     return new UserEntity(await this.usersService.create(uid, createUserDto));
   }
 
   @Get()
   @ApiOkResponse({ type: UserEntity, isArray: true })
-  async findAll(@Req() request: Request) {
+  async findAll() {
     const users = await this.usersService.findAll();
     return users.map((user) => new UserEntity(user));
   }
@@ -61,10 +65,10 @@ export class UsersController {
   @ApiCreatedResponse({ type: UserEntity })
   async update(
     @Param("id", ParseIntPipe) id: number,
-    @Req() request: Request,
+    @AuthUser() authUser: AuthUserEntity,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    const { uid } = request["user"];
+    const { uid } = authUser;
     return new UserEntity(
       await this.usersService.update(id, uid, updateUserDto),
     );
@@ -74,8 +78,11 @@ export class UsersController {
   @UseGuards(LineAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity })
-  async remove(@Param("id", ParseIntPipe) id: number, @Req() request: Request) {
-    const { uid } = request["user"];
+  async remove(
+    @Param("id", ParseIntPipe) id: number,
+    @AuthUser() authUser: AuthUserEntity,
+  ) {
+    const { uid } = authUser;
 
     return new UserEntity(await this.usersService.remove(id, uid));
   }
