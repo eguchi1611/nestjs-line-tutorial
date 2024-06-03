@@ -12,32 +12,40 @@ export class LineAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const requset = context.switchToHttp().getRequest();
     const authorization = requset.headers.authorization;
-    const token = authorization.split(" ")[1];
-    const uid = await this.verifyToken(token);
+    const token = authorization?.replace("Bearer ", "");
 
-    if (!uid) throw new UnauthorizedException();
-
-    requset["user"] = new AuthUserEntity({ uid });
-    return true;
+    try {
+      const uid = await this.verifyToken(token);
+      if (uid) {
+        requset["user"] = new AuthUserEntity({ uid });
+        return true;
+      }
+    } catch (error) {
+      throw new UnauthorizedException();
+    }
   }
 
+  /**
+   *
+   * @param token liff.getAccessToken()で取得できるトークン
+   * @returns LINEのユーザーID
+   * @throws {any} トークンの検証に失敗した場合
+   */
   private async verifyToken(token: string): Promise<string | null> {
-    try {
-      const res = await axios.post(
-        "https://api.line.me/oauth2/v2.1/verify",
-        {
-          id_token: token,
-          client_id: process.env.LINE_CHANNEL_ID,
-        },
-        {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        },
-      );
+    const verify = await axios.get("https://api.line.me/oauth2/v2.1/verify", {
+      params: { access_token: token },
+    });
 
-      if (res.status !== 200) throw new UnauthorizedException();
-      return res.data.sub;
-    } catch (error) {
-      console.error("Verify token error");
+    if (
+      verify.status === 200 &&
+      verify.data.client_id === process.env.LINE_CHANNEL_ID &&
+      verify.data.expires_in > 0
+    ) {
+      const userinfo = await axios.get(
+        "https://api.line.me/oauth2/v2.1/userinfo",
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      return userinfo.data.sub;
     }
     return null;
   }
