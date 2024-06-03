@@ -10,7 +10,10 @@ export function useLiff() {
       (async () => {
         try {
           const { liff } = await import("@line/liff");
-          await liff.init({ liffId: process.env.NEXT_PUBLIC_LIFF_ID || "" });
+          await liff.init({
+            liffId: process.env.NEXT_PUBLIC_LIFF_ID || "",
+            withLoginOnExternalBrowser: true,
+          });
           console.log("LIFF init succeeded.");
           setLiff(liff);
         } catch (error) {

@@ -13,7 +13,7 @@ export function LiffStatus() {
         setProfile(profile);
       });
     }
-  }, []);
+  }, [liff]);
 
   return (
     <div>
