@@ -11,6 +11,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle("nestjs-line-tutorial")
+    .setDescription("nestjs-line-tutorial API description")
     .setVersion("0.1")
     .build();
 
