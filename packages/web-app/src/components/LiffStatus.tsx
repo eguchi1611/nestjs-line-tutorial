@@ -1,9 +1,8 @@
 "use client";
 
-import { api } from "@/api";
+import { UsersApi } from "@/__generated";
 import { useLiff } from "@/features/liff/use-liff";
 import { useEffect, useState } from "react";
-import { UsersApi } from "../../tempapi";
 
 export function LiffStatus() {
   const { liff } = useLiff();
@@ -13,9 +12,6 @@ export function LiffStatus() {
     if (liff) {
       setToken(liff.getAccessToken());
       (async () => {
-        const res = await api.users.findAll();
-        res.data[0].comment;
-
         const a = new UsersApi();
         const b = await a.findAll();
         b.data[0].comment;
