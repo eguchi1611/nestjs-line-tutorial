@@ -24,8 +24,11 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config, {
     ignoreGlobalPrefix: true,
+    operationIdFactory: (_controllerKey, methodKey) => methodKey,
   });
-  SwaggerModule.setup("docs", app, document);
+  SwaggerModule.setup("docs", app, document, {
+    explorer: true,
+  });
 
   fs.writeFileSync("openapi.json", JSON.stringify(document, null, 2));
 

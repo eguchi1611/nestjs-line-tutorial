@@ -3,7 +3,7 @@
   "paths": {
     "/users": {
       "post": {
-        "operationId": "UsersController_create",
+        "operationId": "create",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -37,7 +37,7 @@
         ]
       },
       "get": {
-        "operationId": "UsersController_findAll",
+        "operationId": "findAll",
         "parameters": [],
         "responses": {
           "200": {
@@ -61,7 +61,7 @@
     },
     "/users/{id}": {
       "get": {
-        "operationId": "UsersController_findOne",
+        "operationId": "findOne",
         "parameters": [
           {
             "name": "id",
@@ -89,7 +89,7 @@
         ]
       },
       "patch": {
-        "operationId": "UsersController_update",
+        "operationId": "update",
         "parameters": [
           {
             "name": "id",
@@ -132,7 +132,7 @@
         ]
       },
       "delete": {
-        "operationId": "UsersController_remove",
+        "operationId": "remove",
         "parameters": [
           {
             "name": "id",
