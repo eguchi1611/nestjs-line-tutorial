@@ -2,10 +2,17 @@
   "name": "@nestjs-line-tutorial/database",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "prisma db seed"
+  },
   "devDependencies": {
     "prisma": "^5.15.0"
   },
   "dependencies": {
     "@prisma/client": "^5.15.0"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }
