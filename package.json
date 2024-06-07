@@ -1,5 +1,5 @@
 {
-  "name": "nestjs-line-tutorial",
+  "name": "@nestjs-line-tutorial/nestjs-line-tutorial",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
