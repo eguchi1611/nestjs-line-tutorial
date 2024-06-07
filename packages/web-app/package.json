@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "openapi-generator-cli generate -g typescript-axios -i ../server-app/openapi.json -o src/__generated/ --additional-properties=apiPackage=apis,modelPackage=models,withSeparateModelsAndApi=true"
+    "generate": "openapi-generator-cli generate"
   },
   "dependencies": {
     "@line/liff": "^2.23.2",
