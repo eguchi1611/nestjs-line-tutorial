@@ -1,0 +1,11 @@
+{
+  "name": "@nestjs-line-tutorial/database",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "prisma": "^5.15.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.15.0"
+  }
+}
