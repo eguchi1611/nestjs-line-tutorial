@@ -7,23 +7,30 @@ import { UpdateArticleDto } from "./dto/update-article.dto";
 export class ArticlesService {
   constructor(private prisma: PrismaService) {}
 
-  create(createArticleDto: CreateArticleDto) {
-    return "This action adds a new article";
+  create(authorId: number, createArticleDto: CreateArticleDto) {
+    return this.prisma.article.create({
+      data: { ...createArticleDto, authorId },
+    });
   }
 
   findAll() {
-    return `This action returns all articles`;
+    return this.prisma.article.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} article`;
+    return this.prisma.article.findUnique({ where: { id } });
   }
 
-  update(id: number, updateArticleDto: UpdateArticleDto) {
-    return `This action updates a #${id} article`;
+  update(id: number, authorId: number, updateArticleDto: UpdateArticleDto) {
+    return this.prisma.article.update({
+      where: { id, authorId },
+      data: { ...updateArticleDto, authorId },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} article`;
+  remove(id: number, authorId: number) {
+    return this.prisma.article.delete({
+      where: { id, authorId },
+    });
   }
 }

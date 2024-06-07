@@ -1,42 +1,72 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
 } from "@nestjs/common";
+import {
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import { ArticlesService } from "./articles.service";
 import { CreateArticleDto } from "./dto/create-article.dto";
 import { UpdateArticleDto } from "./dto/update-article.dto";
+import { ArticleEntity } from "./entities/article.entity";
 
 @Controller("articles")
+@ApiTags("articles")
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Post()
-  create(@Body() createArticleDto: CreateArticleDto) {
-    return this.articlesService.create(createArticleDto);
+  @ApiCreatedResponse({ type: ArticleEntity })
+  async create(@Body() createArticleDto: CreateArticleDto) {
+    const lineUid = 1;
+    return new ArticleEntity(
+      await this.articlesService.create(lineUid, createArticleDto),
+    );
   }
 
   @Get()
-  findAll() {
-    return this.articlesService.findAll();
+  @ApiResponse({ type: ArticleEntity, isArray: true })
+  async findAll() {
+    const articles = await this.articlesService.findAll();
+    return articles.map((article) => new ArticleEntity(article));
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.articlesService.findOne(+id);
+  @ApiOkResponse({ type: ArticleEntity })
+  async findOne(@Param("id", ParseIntPipe) id: number) {
+    const article = await this.articlesService.findOne(id);
+    if (!article) {
+      throw new NotFoundException(`Article with id ${id} not found`);
+    }
+    return new ArticleEntity(article);
   }
 
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updateArticleDto: UpdateArticleDto) {
-    return this.articlesService.update(+id, updateArticleDto);
+  @ApiCreatedResponse({ type: ArticleEntity })
+  async update(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() updateArticleDto: UpdateArticleDto,
+  ) {
+    const lineUid = 1;
+    return new ArticleEntity(
+      await this.articlesService.update(id, lineUid, updateArticleDto),
+    );
   }
 
   @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.articlesService.remove(+id);
+  @ApiCreatedResponse({ type: ArticleEntity })
+  async remove(@Param("id", ParseIntPipe) id: number) {
+    const lineUid = 1;
+    return new ArticleEntity(await this.articlesService.remove(id, lineUid));
   }
 }
