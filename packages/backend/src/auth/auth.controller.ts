@@ -9,6 +9,7 @@ import {
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "./auth.guard";
 import { AuthService } from "./auth.service";
+import { Public } from "./decorators/public.decorator";
 import { LoginDto } from "./dto/login.dto";
 import { AuthEntity } from "./entities/auth.entity";
 
@@ -19,6 +20,7 @@ export class AuthController {
 
   @Post("login")
   @ApiOkResponse({ type: AuthEntity })
+  @Public()
   login(@Body() { accessToken }: LoginDto) {
     return this.authService.login(accessToken);
   }
