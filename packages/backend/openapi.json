@@ -29,6 +29,11 @@
         },
         "tags": [
           "articles"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "get": {
@@ -51,6 +56,11 @@
         },
         "tags": [
           "articles"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
@@ -73,7 +83,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ArticleEntity"
+                  "$ref": "#/components/schemas/ArticleWithUserEntity"
                 }
               }
             }
@@ -81,6 +91,11 @@
         },
         "tags": [
           "articles"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "patch": {
@@ -119,6 +134,11 @@
         },
         "tags": [
           "articles"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "delete": {
@@ -147,6 +167,11 @@
         },
         "tags": [
           "articles"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
@@ -382,6 +407,39 @@
           "content"
         ]
       },
+      "ArticleEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorId": {
+            "type": "number"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "authorId",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
       "UserEntity": {
         "type": "object",
         "properties": {
@@ -407,7 +465,7 @@
           "updatedAt"
         ]
       },
-      "ArticleEntity": {
+      "ArticleWithUserEntity": {
         "type": "object",
         "properties": {
           "id": {
@@ -424,9 +482,6 @@
           "authorId": {
             "type": "number"
           },
-          "author": {
-            "$ref": "#/components/schemas/UserEntity"
-          },
           "createdAt": {
             "format": "date-time",
             "type": "string"
@@ -434,14 +489,17 @@
           "updatedAt": {
             "format": "date-time",
             "type": "string"
+          },
+          "author": {
+            "$ref": "#/components/schemas/UserEntity"
           }
         },
         "required": [
           "id",
           "authorId",
-          "author",
           "createdAt",
-          "updatedAt"
+          "updatedAt",
+          "author"
         ]
       },
       "UpdateArticleDto": {

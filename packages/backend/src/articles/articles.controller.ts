@@ -10,6 +10,7 @@ import {
   Post,
 } from "@nestjs/common";
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiResponse,
@@ -18,6 +19,7 @@ import {
 import { ArticlesService } from "./articles.service";
 import { CreateArticleDto } from "./dto/create-article.dto";
 import { UpdateArticleDto } from "./dto/update-article.dto";
+import { ArticleWithUserEntity } from "./entities/article-with-user.entity";
 import { ArticleEntity } from "./entities/article.entity";
 
 @Controller("articles")
@@ -27,6 +29,7 @@ export class ArticlesController {
 
   @Post()
   @ApiCreatedResponse({ type: ArticleEntity })
+  @ApiBearerAuth()
   async create(@Body() createArticleDto: CreateArticleDto) {
     const lineUid = 1;
     return new ArticleEntity(
@@ -36,13 +39,15 @@ export class ArticlesController {
 
   @Get()
   @ApiResponse({ type: ArticleEntity, isArray: true })
+  @ApiBearerAuth()
   async findAll() {
     const articles = await this.articlesService.findAll();
     return articles.map((article) => new ArticleEntity(article));
   }
 
   @Get(":id")
-  @ApiOkResponse({ type: ArticleEntity })
+  @ApiOkResponse({ type: ArticleWithUserEntity })
+  @ApiBearerAuth()
   async findOne(@Param("id", ParseIntPipe) id: number) {
     const article = await this.articlesService.findOne(id);
     if (!article) {
@@ -53,6 +58,7 @@ export class ArticlesController {
 
   @Patch(":id")
   @ApiCreatedResponse({ type: ArticleEntity })
+  @ApiBearerAuth()
   async update(
     @Param("id", ParseIntPipe) id: number,
     @Body() updateArticleDto: UpdateArticleDto,
@@ -65,6 +71,7 @@ export class ArticlesController {
 
   @Delete(":id")
   @ApiCreatedResponse({ type: ArticleEntity })
+  @ApiBearerAuth()
   async remove(@Param("id", ParseIntPipe) id: number) {
     const lineUid = 1;
     return new ArticleEntity(await this.articlesService.remove(id, lineUid));

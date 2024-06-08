@@ -15,19 +15,13 @@ export class ArticleEntity implements Article {
   @ApiProperty()
   authorId: number;
 
-  @ApiProperty({ type: UserEntity })
-  author: UserEntity;
-
   @ApiProperty()
   createdAt: Date;
 
   @ApiProperty()
   updatedAt: Date;
 
-  constructor({ author, ...partial }: Partial<ArticleEntity>) {
+  constructor(partial: Partial<ArticleEntity>) {
     Object.assign(this, partial);
-    if (author) {
-      this.author = new UserEntity(author);
-    }
   }
 }
