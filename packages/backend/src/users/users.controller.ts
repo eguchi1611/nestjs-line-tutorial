@@ -49,6 +49,6 @@ export class UsersController {
 
   @Delete(":id")
   async remove(@Param("id", ParseIntPipe) id: number) {
-    return new UserEntity(await this.usersService.findOne(id));
+    return new UserEntity(await this.usersService.remove(id));
   }
 }
