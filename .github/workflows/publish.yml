@@ -25,6 +25,8 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build -w packages/frontend
+      - name: Check uncomitted changes
+        run: git status
       - name: Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
