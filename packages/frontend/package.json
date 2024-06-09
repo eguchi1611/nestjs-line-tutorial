@@ -9,9 +9,12 @@
     "format": "prettier . --write"
   },
   "dependencies": {
+    "@nestjs-line-tutorial/api-client": "^1.0.0",
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "recoil": "^0.7.7",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -5,7 +5,7 @@ import { AppModule } from "./app.module";
 import * as fs from "fs";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   app.useGlobalPipes(
     new ValidationPipe({ whitelist: true, validateCustomDecorators: true }),
@@ -18,10 +18,7 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
 
-  const document = SwaggerModule.createDocument(app, config, {
-    operationIdFactory: (_controllerKey: string, methodKey: string) =>
-      methodKey,
-  });
+  const document = SwaggerModule.createDocument(app, config);
 
   SwaggerModule.setup("docs", app, document);
   fs.writeFileSync("openapi.json", JSON.stringify(document, null, 2));

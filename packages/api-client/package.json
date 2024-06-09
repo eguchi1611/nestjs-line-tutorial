@@ -1,0 +1,8 @@
+{
+  "name": "@nestjs-line-tutorial/api-client",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.13.4"
+  }
+}
