@@ -38,6 +38,7 @@ jobs:
           accountId: afdc130c46cc37864df7a03b15278775
           command: pages deploy packages/frontend/out --project-name nestjs-line-tutorial
       - name: Post comment with deployment URL
+        if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh pr comment -b "${{steps.publish.outputs.deployment-url}}" ${{ github.event.pull_request.number }}
