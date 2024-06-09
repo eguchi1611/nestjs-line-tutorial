@@ -1,0 +1,27 @@
+import { ApiProperty } from "@nestjs/swagger";
+import { Article } from "@prisma/client";
+import { UserEntity } from "src/users/entities/user.entity";
+
+export class ArticleEntity implements Article {
+  @ApiProperty()
+  id: number;
+
+  @ApiProperty({ required: false, nullable: true })
+  title: string | null;
+
+  @ApiProperty({ required: false, nullable: true })
+  content: string | null;
+
+  @ApiProperty()
+  authorId: number;
+
+  @ApiProperty()
+  createdAt: Date;
+
+  @ApiProperty()
+  updatedAt: Date;
+
+  constructor(partial: Partial<ArticleEntity>) {
+    Object.assign(this, partial);
+  }
+}

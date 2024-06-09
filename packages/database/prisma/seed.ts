@@ -8,8 +8,7 @@ async function main() {
     update: {},
     create: {
       id: 1,
-      lineUid: "U8189cf6745fc0d808977bdb0b9f22991",
-      comment: "Hello, World!",
+      lineUid: "sample-user-1",
     },
   });
 
@@ -18,22 +17,46 @@ async function main() {
     update: {},
     create: {
       id: 2,
-      lineUid: "U8189cf6745fc0d808977bdb0b9f22992",
-      comment: "Oh, Hi!",
+      lineUid: "sample-user-2",
     },
   });
 
-  const user3 = await prisma.user.upsert({
+  console.log({ user1, user2 });
+
+  const article1 = await prisma.article.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      id: 1,
+      authorId: user1.id,
+      title: "sample-article-1",
+      content: "sample-content-1",
+    },
+  });
+
+  const article2 = await prisma.article.upsert({
+    where: { id: 2 },
+    update: {},
+    create: {
+      id: 2,
+      authorId: user1.id,
+      title: "sample-article-2",
+      content: "sample-content-2",
+    },
+  });
+
+  const article3 = await prisma.article.upsert({
     where: { id: 3 },
     update: {},
     create: {
       id: 3,
-      lineUid: "U8189cf6745fc0d808977bdb0b9f22993",
-      comment: "Hey, There!",
+      authorId: user2.id,
+      title: "sample-article-3",
+      content: "sample-content-3",
     },
   });
 
-  console.log({ user1, user2, user3 });
+  console.log({ article1, article2, article3 });
 }
 
 main()

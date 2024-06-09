@@ -1,17 +1,8 @@
 {
-  "name": "nestjs-line-tutorial",
+  "name": "@nestjs-line-tutorial/nestjs-line-tutorial",
+  "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "format": "prettier . --write"
-  },
-  "engines": {
-    "node": ">=18.17.1",
-    "npm": ">=9.6.7"
-  },
   "workspaces": [
     "packages/*"
-  ],
-  "devDependencies": {
-    "prettier": "^3.2.5"
-  }
+  ]
 }
