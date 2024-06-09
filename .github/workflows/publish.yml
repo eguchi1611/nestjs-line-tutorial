@@ -21,11 +21,8 @@ jobs:
       - name: Build
         run: npm run build -w packages/frontend
       - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+        uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN}}
           accountId: afdc130c46cc37864df7a03b15278775
-          projectName: nestjs-line-tutorial
-          directory: packages/frontend/out
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          wranglerVersion: "3"
+          command: pages deploy packages/frontend/out --project-name nestjs-line-tutorial
