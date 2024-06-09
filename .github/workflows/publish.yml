@@ -38,4 +38,4 @@ jobs:
       - name: Post comment with deployment URL
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh pr comment -b "${{steps.publish.outputs.deployment-url}}"
+        run: gh pr comment -b "${{steps.publish.outputs.deployment-url}}" ${{ github.event.pull_request.number }}
