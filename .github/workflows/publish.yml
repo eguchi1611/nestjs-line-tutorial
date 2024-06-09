@@ -1,6 +1,8 @@
 name: Publish to Cloudflare Pages
 
-on: [push]
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   publish:
