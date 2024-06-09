@@ -27,11 +27,12 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build -w packages/frontend
-      - name: Check uncomitted changes
-        run: git status
       - name: Publish to Cloudflare Pages
+        id: publish
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN}}
           accountId: afdc130c46cc37864df7a03b15278775
           command: pages deploy packages/frontend/out --project-name nestjs-line-tutorial
+      - name: Create summary
+        run: echo "${{ steps.publish.outputs.deployment-url }}" >> $GITHUB_STEP_SUMMARY
