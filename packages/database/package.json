@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "db:migrate": "prisma migrate dev",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "postinstall": "prisma generate"
   },
   "devDependencies": {
     "prisma": "^5.15.0"

@@ -6,7 +6,7 @@
     "generate": "openapi-generator-cli generate",
     "postinstall": "npm run generate"
   },
-  "devDependencies": {
+  "dependencies": {
     "@openapitools/openapi-generator-cli": "^2.13.4"
   }
 }
