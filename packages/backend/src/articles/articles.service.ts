@@ -14,7 +14,11 @@ export class ArticlesService {
   }
 
   findAll() {
-    return this.prisma.article.findMany();
+    return this.prisma.article.findMany({
+      include: {
+        author: true,
+      },
+    });
   }
 
   findOne(id: number) {

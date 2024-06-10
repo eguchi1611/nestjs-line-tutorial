@@ -47,7 +47,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ArticleEntity"
+                    "$ref": "#/components/schemas/ArticleWithUserEntity"
                   }
                 }
               }
@@ -56,11 +56,6 @@
         },
         "tags": [
           "articles"
-        ],
-        "security": [
-          {
-            "bearer": []
-          }
         ]
       }
     },
@@ -91,11 +86,6 @@
         },
         "tags": [
           "articles"
-        ],
-        "security": [
-          {
-            "bearer": []
-          }
         ]
       },
       "patch": {
@@ -573,10 +563,14 @@
         "properties": {
           "accessToken": {
             "type": "string"
+          },
+          "userId": {
+            "type": "number"
           }
         },
         "required": [
-          "accessToken"
+          "accessToken",
+          "userId"
         ]
       }
     }

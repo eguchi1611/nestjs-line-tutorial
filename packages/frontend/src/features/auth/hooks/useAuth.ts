@@ -3,9 +3,9 @@ import { useMemo } from "react";
 import { useRecoilValue } from "recoil";
 
 export function useAuth() {
-  const accessToken = useRecoilValue(accessTokenAtom);
+  const authUser = useRecoilValue(accessTokenAtom);
 
-  const isAuthenticated = useMemo(() => !!accessToken, [accessToken]);
+  const isAuthenticated = useMemo(() => !!authUser?.accessToken, [authUser]);
 
-  return { isAuthenticated };
+  return { isAuthenticated, userId: authUser?.userId };
 }

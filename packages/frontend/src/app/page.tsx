@@ -1,10 +1,13 @@
+import { Layout } from "@/components/Layout";
+import { ArticleController } from "@/features/article/ArticleController";
 import { ArticleList } from "@/features/article/ArticleList";
 
 export default async function IndexPage() {
   return (
-    <div>
-      <h1>Index Page</h1>
+    <Layout>
+      <h1>nestjs-line-tutorial</h1>
+      <ArticleController />
       <ArticleList />
-    </div>
+    </Layout>
   );
 }

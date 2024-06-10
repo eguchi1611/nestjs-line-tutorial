@@ -7,24 +7,24 @@ import { useRecoilState } from "recoil";
 import { useLiff } from "../../../../features/liff/useLiff";
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
+  const [authUser, userAuthUser] = useRecoilState(accessTokenAtom);
   const { liff } = useLiff();
 
   useEffect(() => {
-    if (!accessToken && liff) {
+    if (!authUser && liff) {
       (async () => {
         const res = await authApi.authControllerLogin({
           accessToken: liff.getAccessToken() || "",
         });
-        setAccessToken(res.data.accessToken);
+        userAuthUser(res.data);
       })();
     }
-  }, [accessToken, setAccessToken, liff]);
+  }, [authUser, userAuthUser, liff]);
 
   useEffect(() => {
     const requestInterceptors = instance.interceptors.request.use(
       async (request) => {
-        request.headers.Authorization = `Bearer ${accessToken}`;
+        request.headers.Authorization = `Bearer ${authUser?.accessToken}`;
         return request;
       },
     );
@@ -32,7 +32,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     return () => {
       instance.interceptors.request.eject(requestInterceptors);
     };
-  }, [accessToken]);
+  }, [authUser]);
 
   return children;
 }

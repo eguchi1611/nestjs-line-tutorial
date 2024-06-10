@@ -1,6 +1,11 @@
 import { atom } from "recoil";
 
-export const accessTokenAtom = atom<string | null>({
+interface AuthUser {
+  accessToken: string;
+  userId: number;
+}
+
+export const accessTokenAtom = atom<AuthUser | null>({
   key: "accessToken",
   default: null,
 });
