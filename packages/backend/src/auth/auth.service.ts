@@ -38,7 +38,6 @@ export class AuthService {
       });
 
     const lineUid = profile.sub;
-    console.log(lineUid);
 
     const user = await this.prismaService.user.upsert({
       where: { lineUid: lineUid },
