@@ -1,10 +1,10 @@
 "use client";
 
 import { accessTokenAtom } from "@/atoms/accessTokenAtom";
+import { useLiff } from "@/features/liff/useLiff";
 import { authApi, instance } from "@/lib/api";
 import { PropsWithChildren, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { useLiff } from "../../../../features/liff/useLiff";
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [authUser, userAuthUser] = useRecoilState(accessTokenAtom);
