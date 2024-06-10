@@ -203,6 +203,11 @@
         },
         "tags": [
           "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "get": {
@@ -225,6 +230,11 @@
         },
         "tags": [
           "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
@@ -255,6 +265,11 @@
         },
         "tags": [
           "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "patch": {
@@ -293,6 +308,11 @@
         },
         "tags": [
           "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "delete": {
@@ -314,6 +334,11 @@
         },
         "tags": [
           "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },

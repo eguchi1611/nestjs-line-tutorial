@@ -8,7 +8,12 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserEntity } from "./entities/user.entity";
@@ -21,12 +26,14 @@ export class UsersController {
 
   @Post()
   @ApiCreatedResponse({ type: UserEntity })
+  @ApiBearerAuth()
   async create(@Body() createUserDto: CreateUserDto) {
     return new UserEntity(await this.usersService.create(createUserDto));
   }
 
   @Get()
   @ApiOkResponse({ type: UserEntity, isArray: true })
+  @ApiBearerAuth()
   async findAll() {
     const users = await this.usersService.findAll();
     return users.map((user) => new UserEntity(user));
@@ -34,11 +41,13 @@ export class UsersController {
 
   @Get(":id")
   @ApiCreatedResponse({ type: UserEntity })
+  @ApiBearerAuth()
   async findOne(@Param("id", ParseIntPipe) id: number) {
     return new UserEntity(await this.usersService.findOne(id));
   }
 
   @Patch(":id")
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: UserEntity })
   async update(
     @Param("id", ParseIntPipe) id: number,
@@ -48,6 +57,7 @@ export class UsersController {
   }
 
   @Delete(":id")
+  @ApiBearerAuth()
   async remove(@Param("id", ParseIntPipe) id: number) {
     return new UserEntity(await this.usersService.remove(id));
   }

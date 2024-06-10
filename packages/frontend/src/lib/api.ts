@@ -7,7 +7,7 @@ import {
 import axios from "axios";
 
 const apiConfig = new Configuration({
-  basePath: "http://localhost:8080",
+  basePath: process.env.NEXT_PUBLIC_API_URL || "",
 });
 
 export const instance = axios.create({});

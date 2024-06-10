@@ -4,20 +4,22 @@ import { accessTokenAtom } from "@/atoms/accessTokenAtom";
 import { authApi, instance } from "@/lib/api";
 import { PropsWithChildren, useEffect } from "react";
 import { useRecoilState } from "recoil";
+import { useLiff } from "../../../../features/liff/useLiff";
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
+  const { liff } = useLiff();
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!accessToken && liff) {
       (async () => {
         const res = await authApi.authControllerLogin({
-          accessToken: "accessToken",
+          accessToken: liff.getAccessToken() || "",
         });
         setAccessToken(res.data.accessToken);
       })();
     }
-  }, [accessToken, setAccessToken]);
+  }, [accessToken, setAccessToken, liff]);
 
   useEffect(() => {
     const requestInterceptors = instance.interceptors.request.use(

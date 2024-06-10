@@ -34,7 +34,7 @@ jobs:
         id: publish
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN}}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: afdc130c46cc37864df7a03b15278775
           command: pages deploy packages/frontend/out --project-name nestjs-line-tutorial
       - name: Post comment with deployment URL
